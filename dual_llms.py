@@ -16,9 +16,6 @@ init(autoreset=True)
 
 load_dotenv(dotenv_path=".env.local")
 
-# Set your API key
-api_key = os.environ.get("OPENAI_API_KEY") 
-
 class ActiveListeningBot:
     """
     AI chat with two LLM's, an actor and a grader.
@@ -27,8 +24,8 @@ class ActiveListeningBot:
     def __init__(self, streaming=False):
 
         # Initialize the actor_llm
-        self.actor_llm = openai.OpenAI(api_key=api_key)
-        self.grader_llm = openai.OpenAI(api_key=api_key)
+        self.actor_llm = openai.OpenAI()
+        self.grader_llm = openai.OpenAI()
 
         # Initialize chat
         self.grader_response_id = None
