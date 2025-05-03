@@ -17,7 +17,7 @@ load_dotenv(dotenv_path=".env.local")
 import time
 
 # Local imports
-from dual_llms import ActiveListeningBot
+from dual_llms import ActiveListeningBot, convert_stream_to_deltas
 
 
 # Configure logging
@@ -83,20 +83,20 @@ def openai_advanced_custom_llm_route():
     )
 
     last_message = request_data["messages"][-1]
+    chat_response = listening_bot.process_message(last_message["content"])
+    chat_deltas = convert_stream_to_deltas(chat_response)
 
     if streaming:
         # Simulate a non-streaming response
-        chat_completion = listening_bot.process_message(last_message["content"])
         return Response(
-            format_streaming_response(chat_completion),
+            format_streaming_response(chat_deltas),
             content_type="text/event-stream",
         )
 
     else:
         # Simulate a non-streaming response nonstreaming
-        chat_completion = listening_bot.process_message(last_message["content"])
         return Response(
-            format_nonstreaming_response(chat_completion),
+            format_nonstreaming_response(chat_deltas),
             content_type="application/json",
         )
 

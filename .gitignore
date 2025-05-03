@@ -1,0 +1,6 @@
+
+.env.local
+
+__pycache__/
+
+old_code.py
