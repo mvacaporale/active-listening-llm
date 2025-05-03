@@ -2,3 +2,4 @@ python-dotenv
 openai
 colorama
 flask
+requests
