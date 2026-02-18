@@ -1,20 +1,14 @@
 # Standard library imports
-import os
 import json
 import logging
+import os
+import time
 
 # Third party imports
-from flask import Flask
-from flask import Response
-from flask import Blueprint
-from flask import request
+from flask import Flask, Response, request
 from dotenv import load_dotenv
-from openai import OpenAI
-
 
 load_dotenv(dotenv_path=".env.local")
-# Standard library imports
-import time
 
 # Local imports
 from dual_llms import ActiveListeningBot, convert_stream_to_deltas
@@ -25,11 +19,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-
-# client = OpenAI(
-#   # This is the default and can be omitted
-#   api_key=os.environ.get("OPENAI_API_KEY"),
-# )
 
 listening_bot = ActiveListeningBot()
 
@@ -87,14 +76,12 @@ def openai_advanced_custom_llm_route():
     chat_deltas = convert_stream_to_deltas(chat_response)
 
     if streaming:
-        # Simulate a non-streaming response
         return Response(
             format_streaming_response(chat_deltas),
             content_type="text/event-stream",
         )
 
     else:
-        # Simulate a non-streaming response nonstreaming
         return Response(
             format_nonstreaming_response(chat_deltas),
             content_type="application/json",
@@ -103,4 +90,4 @@ def openai_advanced_custom_llm_route():
 
 if __name__ == "__main__":
     port = os.getenv('PORT', '5000')
-    app.run(host="0.0.0.0", port=int(port))  # You can adjust the port if needed
+    app.run(host="0.0.0.0", port=int(port))

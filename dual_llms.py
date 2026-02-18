@@ -1,16 +1,13 @@
-import os
-import json
-
 from colorama import Fore, Style, init
 from dotenv import load_dotenv
 import openai
 from pydantic import BaseModel
 
+from system_prompts import ACTOR_PROMPT, GRADER_PROMPT
+
+
 class ListeningLevels(BaseModel):
     level: str
-
-from system_prompts import ACTOR_PROMPT
-from system_prompts import GRADER_PROMPT
 
 init(autoreset=True)
 
@@ -169,4 +166,4 @@ def print_color(text, color, bold=False):
 # Uncomment the line below to run the interactive chat
 if __name__ == "__main__":
     # chat_with_gpt()
-    chat_with_gpt2()
+    chat_with_gpt()
